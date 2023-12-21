@@ -70,11 +70,11 @@ a:hover {
 /* admin.css */
 
 .admin-actions a {
-    color: #ff5733; /* Замените на цвет, который вы предпочитаете */
-    margin-right: 20px; /* Добавим отступ между ссылками */
-    text-decoration: none; /* Уберем подчеркивание ссылок */
+    color: #ff5733;
+    margin-right: 20px;
+    text-decoration: none;
 }
 
 .admin-actions a:hover {
-    text-decoration: underline; /* Добавим подчеркивание при наведении */
+    text-decoration: underline;
 }

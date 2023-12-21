@@ -48,7 +48,6 @@ $users = User::getAllUsers($conn);
                 <td><?= $user->getUserId(); ?></td>
                 <td><?= $user->getUsername(); ?></td>
                 <td><?= $user->getEmail(); ?></td>
-                <!-- Другие поля по вашему выбору -->
             </tr>
         <?php endforeach; ?>
         </tbody>

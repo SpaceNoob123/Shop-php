@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         $user->setUserId($userId);
-        $user->setIsAdmin($isAdmin);
+        $user->setAdmin($isAdmin);
 
         header("Location: ../../views/user/login.php");
         exit();

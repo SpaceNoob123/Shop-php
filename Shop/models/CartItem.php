@@ -7,7 +7,7 @@ class CartItem
     private $productId;
     private $quantity;
 
-    // Конструктор
+
     public function __construct($cartItemId, $cartId, $productId, $quantity) {
         $this->cartItemId = $cartItemId;
         $this->cartId = $cartId;
@@ -15,7 +15,7 @@ class CartItem
         $this->quantity = $quantity;
     }
 
-    // Геттеры и сеттеры
+
 
     public function getCartItemId() {
         return $this->cartItemId;

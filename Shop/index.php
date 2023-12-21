@@ -22,6 +22,7 @@ session_start();
 
 $loggedIn = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'];
 $adminStatus = isset($_SESSION['adminStatus']) && $_SESSION['adminStatus'];
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +42,6 @@ $adminStatus = isset($_SESSION['adminStatus']) && $_SESSION['adminStatus'];
             if ($loggedIn) {
                 echo '<a href="logout.php">Logout</a>';
                 echo '<a href="cart.php">View Cart</a>';
-                echo '<a href="views/admin/admin_panel.php">Admin Panel</a>';
                 if ($adminStatus) {
                     echo '<a href="views/admin/admin_panel.php">Admin Panel</a>';
                 }

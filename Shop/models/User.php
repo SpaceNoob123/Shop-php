@@ -46,6 +46,7 @@ class User
 
         return false;
     }
+
     public function  getIsAdmin(){
         return $this->isAdmin;
     }
@@ -63,11 +64,11 @@ class User
 
         if ($result) {
             while ($row = $result->fetch_assoc()) {
-                $userId = isset($row['id']) ? $row['id'] : null;
-                $username = isset($row['name']) ? $row['name'] : null;
+                $userId = isset($row['user_id']) ? $row['user_id'] : null;
+                $username = isset($row['username']) ? $row['username'] : null;
                 $email = isset($row['email']) ? $row['email'] : null;
                 $password = isset($row['password']) ? $row['password'] : null;
-                $isAdmin = isset($row['isAdmin']) ? $row['isAdmin'] : null;
+                $isAdmin = isset($row['is_admin']) ? $row['is_admin'] : null;
 
                 $user = new User($userId, $username, $email, $password, $isAdmin);
                 $users[] = $user;
@@ -76,6 +77,24 @@ class User
         }
 
         return $users;
+    }
+    public static function getUserByEmail($email, $conn)
+    {
+        $sql = "SELECT * FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                return new User($row['user_id'], $row['username'], $row['email'], $row['password'], $row['is_admin']);
+            }
+        }
+
+        return null;
     }
     public function setUserId($userId) {
         $this->userId = $userId;

@@ -26,34 +26,34 @@ class Order
         $this->setTotalAmount($totalAmount);
     }
 
-    // Метод для добавления продукта в заказ
+
     public function addProduct($product, $quantity) {
         $productId = $product->getProductId();
 
-        // Если продукт уже есть в заказе, обновляем количество
+
         if (array_key_exists($productId, $this->products)) {
             $this->products[$productId] += $quantity;
         } else {
-            // Иначе, добавляем новый продукт в заказ
+
             $this->products[$productId] = $quantity;
         }
     }
 
-    // Метод для получения продуктов в заказе
+
     public function getProducts() {
         return $this->products;
     }
 
-    // Метод для получения количества продукта в заказе
+
     public function getProductQuantity($productId) {
         return isset($this->products[$productId]) ? $this->products[$productId] : 0;
     }
 
-    // Метод для установки общей суммы заказа
+
     public function setTotalAmount($totalAmount) {
         $this->totalAmount = $totalAmount;
     }
-    // Метод для установки продуктов в заказе
+
     public function setProducts($products) {
         $this->products = $products;
     }

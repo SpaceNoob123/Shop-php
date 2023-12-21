@@ -31,7 +31,6 @@ $users = User::getAllUsers($conn);
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <!-- Add other fields as needed -->
         </tr>
         </thead>
         <tbody>
@@ -40,7 +39,6 @@ $users = User::getAllUsers($conn);
                 <td><?= $user->getUserId(); ?></td>
                 <td><?= $user->getUsername(); ?></td>
                 <td><?= $user->getEmail(); ?></td>
-                <!-- Add other fields as needed -->
             </tr>
         <?php endforeach; ?>
         </tbody>

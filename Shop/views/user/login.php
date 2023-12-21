@@ -9,26 +9,17 @@ $conn = connectDB();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
+    $_SESSION['adminStatus'] = false;
     $user = new User(null, null, $email, $password, null);
     $loginResult = $user->login($email, $password, $conn);
-
     if ($loginResult) {
-        // Успешный вход
-        // Устанавливаем сессию и перенаправляем пользователя
+
         session_start();
         $_SESSION['user_id'] = $user->getUserId();
         $_SESSION['loggedIn'] = true;
-        if($user->isAdmin()){
-            $_SESSION['adminStatus'] = true;
-            }
-        else{
-            $_SESSION['adminStatus'] = false;
-        }// Добавляем новую переменную сессии для отслеживания входа
         header("Location: ../../index.php");
         exit();
     } else {
-        // Неудачный вход, вы можете вывести сообщение об ошибке
         echo "Invalid email or password.";
     }
 }

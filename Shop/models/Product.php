@@ -14,7 +14,7 @@ class Product
         $this->price = $price;
     }
 
-    // Геттеры и сеттеры
+
 
     public function getProductId() {
         return $this->productId;
