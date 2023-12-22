@@ -2,7 +2,7 @@
 
 include_once '../../config/db/db_connection.php';
 include_once '../../models/Product.php';
-
+include_once '../../controllers/add_to_cart.php';
 $conn = connectDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

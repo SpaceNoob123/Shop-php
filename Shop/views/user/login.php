@@ -13,7 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = new User(null, null, $email, $password, null);
     $loginResult = $user->login($email, $password, $conn);
     if ($loginResult) {
-
+        if($email == "adminadmin@gmail.com"){
+            session_start();
+            $_SESSION['user_id'] = $user->getUserId();
+            $_SESSION['loggedIn'] = true;
+            $_SESSION['adminStatus'] = true;
+            header("Location: ../admin/admin_panel.php");
+            exit();
+        }
         session_start();
         $_SESSION['user_id'] = $user->getUserId();
         $_SESSION['loggedIn'] = true;

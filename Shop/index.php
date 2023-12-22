@@ -12,17 +12,14 @@ $products = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $product = new Product($row['product_id'], $row['name'], $row['description'], $row['price']);
+        $product = new Product($row['name'], $row['description'], $row['price']);
         $products[] = $product;
     }
 }
 
-// Пример: начало HTML-кода
 session_start();
 
 $loggedIn = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'];
-$adminStatus = isset($_SESSION['adminStatus']) && $_SESSION['adminStatus'];
-
 ?>
 
 <!DOCTYPE html>
@@ -40,11 +37,8 @@ $adminStatus = isset($_SESSION['adminStatus']) && $_SESSION['adminStatus'];
         <div class="user-actions">
             <?php
             if ($loggedIn) {
-                echo '<a href="logout.php">Logout</a>';
-                echo '<a href="cart.php">View Cart</a>';
-                if ($adminStatus) {
-                    echo '<a href="views/admin/admin_panel.php">Admin Panel</a>';
-                }
+                echo '<a href="views/logout.php">Logout</a>';
+                echo '<a href="views/cart.php">View Cart</a>';
             } else {
                 echo '<a href="views/user/login.php">Login</a>';
                 echo '<a href="views/user/register.php">Register</a>';
@@ -62,12 +56,21 @@ $adminStatus = isset($_SESSION['adminStatus']) && $_SESSION['adminStatus'];
             echo '<h2>' . $product->getName() . '</h2>';
             echo '<p>' . $product->getDescription() . '</p>';
             echo '<p>Price: $' . $product->getPrice() . '</p>';
-            echo '<button>Add to Cart</button>';
+            echo '<form action="controllers/add_to_cart.php" method="post">';
+            echo '<input type="hidden" name="product_id" value="' . $product->getProductId() . '">';
+            echo '<button type="submit">Add to Cart</button>';
+            echo '</form>';
             echo '</div>';
         }
         ?>
     </div>
 </main>
+
+<footer>
+    <p>&copy; 2023 Online Shop. All rights reserved.</p>
+</footer>
+</body>
+</html>
 
 <footer>
     <p>&copy; 2023 Online Shop. All rights reserved.</p>

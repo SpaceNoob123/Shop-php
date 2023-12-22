@@ -1,9 +1,7 @@
 <?php
-// delete_product.php
-
 include_once '../../config/db/db_connection.php';
 include_once '../../models/Product.php';
-
+include_once '../../controllers/ProductController.php';
 $conn = connectDB();
 
 $sql = "SELECT product_id, name FROM products";

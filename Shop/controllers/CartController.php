@@ -6,12 +6,11 @@ include_once '../config/db/db_connection.php';
 
 class CartController {
 
-    // Метод для получения корзины пользователя
     public function getCart($userId) {
-        // Подключаемся к базе данных
+
         $conn = connectDB();
 
-        // Ваш код для получения корзины из базы данных
+
         $sql = "SELECT * FROM carts WHERE user_id = $userId";
         $result = $conn->query($sql);
 
@@ -22,63 +21,71 @@ class CartController {
             return $cart;
         }
 
-        // Закрываем соединение с базой данных
         $conn->close();
 
-        return null; // Возвращаем null в случае отсутствия корзины
+        return null;
     }
 
-    // Метод для добавления продукта в корзину
+
     public function addToCart($userId, $productId, $quantity) {
-        // Подключаемся к базе данных
+
         $conn = connectDB();
 
-        // Получаем корзину пользователя
+
         $cart = $this->getCart($userId);
 
-        // Если у пользователя еще нет корзины, создаем новую
+
         if ($cart === null) {
             $cart = $this->createCart($userId, $conn);
         }
 
-        // Получаем продукт
         $product = $this->getProductById($productId, $conn);
 
-        // Добавляем продукт в корзину
         $cart->addProduct($product, $quantity);
 
-        // Сохраняем обновленную корзину в базе данных
         $this->saveCartToDB($cart, $conn);
 
-        // Закрываем соединение с базой данных
         $conn->close();
 
         return $cart;
     }
 
-    // Метод для удаления продукта из корзины
     public function removeFromCart($userId, $productId) {
-        // Подключаемся к базе данных
         $conn = connectDB();
 
-        // Получаем корзину пользователя
         $cart = $this->getCart($userId);
 
         if ($cart !== null) {
-            // Удаляем продукт из корзины
             $cart->removeProduct($productId);
 
-            // Сохраняем обновленную корзину в базе данных
             $this->saveCartToDB($cart, $conn);
         }
 
-        // Закрываем соединение с базой данных
+
         $conn->close();
 
         return $cart;
     }
+    public static function getCartItems($userID, $conn) {
 
-    // Метод для создания корзины
+        $cartItems = array();
+
+        $sql = "SELECT * FROM cart WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $userID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $cartItem = new CartItem($row['cart_item_id'], $row['cart_id'], $row['product_id'], $row['quantity']);
+            $cartItems[] = $cartItem;
+        }
+
+        $stmt->close();
+
+        return $cartItems;
+    }
+
     private function createCart($userId, $conn) {
         $sql = "INSERT INTO carts (user_id) VALUES ($userId)";
         $conn->query($sql);
@@ -88,17 +95,15 @@ class CartController {
         return new Cart($cartId, $userId);
     }
 
-    // Метод для сохранения корзины в базе данных
     private function saveCartToDB($cart, $conn) {
-        // Ваш код для сохранения корзины в базе данных
+
         $cartId = $cart->getCartId();
         $userId = $cart->getUserId();
 
-        // Удаляем существующие записи о продуктах в корзине
         $sqlDelete = "DELETE FROM cart_items WHERE cart_id = $cartId";
         $conn->query($sqlDelete);
 
-        // Добавляем обновленные записи о продуктах в корзине
+
         foreach ($cart->getProducts() as $product) {
             $productId = $product->getProductId();
             $quantity = $cart->getProductQuantity($productId);
@@ -108,7 +113,7 @@ class CartController {
         }
     }
 
-    // Метод для получения продукта по его идентификатору
+
     private function getProductById($productId, $conn) {
         $sql = "SELECT * FROM products WHERE product_id = $productId";
         $result = $conn->query($sql);
@@ -118,10 +123,10 @@ class CartController {
             return new Product($row['product_id'], $row['name'], $row['description'], $row['price']);
         }
 
-        return null; // Возвращаем null в случае отсутствия продукта
+        return null;
     }
 
-    // Метод для получения продуктов в корзине
+
     private function getCartProducts($cartId, $conn) {
         $products = array();
 
