@@ -3,57 +3,39 @@
 
 class Cart
 {
-    private $cartId;
     private $userId;
+    private $items = array();
 
-    // Constructor
-    public function __construct($cartId, $userId)
-    {
-        $this->cartId = $cartId;
+    public function __construct($userId) {
         $this->userId = $userId;
+        $this->loadFromJSON(); // Load existing cart data
     }
 
-    // Getter methods
-    public function getCartId()
-    {
-        return $this->cartId;
+    public function addCartItem($productId, $quantity) {
+        $item = array(
+            'product_id' => $productId,
+            'quantity' => $quantity
+        );
+
+        $this->items[] = $item;
+        $this->saveToJSON();
     }
 
-    public function getUserId()
-    {
-        return $this->userId;
+    public function getCartItems() {
+        return $this->items;
     }
 
-    public function addCartItem($cartItem, $conn)
-    {
-        $stmt = $conn->prepare("INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)");
+    private function saveToJSON() {
+        $jsonFile = __DIR__ . '/cart_' . $this->userId . '.json';
+        file_put_contents($jsonFile, json_encode($this->items));
+    }
 
+    private function loadFromJSON() {
+        $jsonFile = __DIR__ . '/cart_' . $this->userId . '.json';
 
-        $cartId = $this->cartId;
-        $stmt->bind_param("iii", $cartId, $cartItem->getProductId(), $cartItem->getQuantity());
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+        if (file_exists($jsonFile)) {
+            $jsonContents = file_get_contents($jsonFile);
+            $this->items = json_decode($jsonContents, true);
         }
-    }
-
-    public function getCartItems($conn)
-    {
-        $cartItems = array();
-
-
-        $stmt = $conn->prepare("SELECT * FROM cart_items WHERE cart_id = ?");
-        $stmt->bind_param("i", $this->cartId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        while ($row = $result->fetch_assoc()) {
-            $cartItem = new CartItem($row['cart_item_id'], $row['cart_id'], $row['product_id'], $row['quantity']);
-            $cartItems[] = $cartItem;
-        }
-
-        return $cartItems;
     }
 }

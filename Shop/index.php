@@ -71,9 +71,3 @@ $loggedIn = isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'];
 </footer>
 </body>
 </html>
-
-<footer>
-    <p>&copy; 2023 Online Shop. All rights reserved.</p>
-</footer>
-</body>
-</html>
