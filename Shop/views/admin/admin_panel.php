@@ -1,15 +1,13 @@
 <?php
 // admin_panel.php
 
-// Подключение к базе данных
 include_once '../../config/db/db_connection.php';
 include_once '../../models/User.php';
 include_once '../../models/Product.php';
 
-// Получаем соединение с базой данных
 $conn = connectDB();
 
-// Получение списка пользователей
+
 $users = User::getAllUsers($conn);
 
 ?>

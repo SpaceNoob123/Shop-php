@@ -1,8 +1,9 @@
 <?php
 include_once '../models/Cart.php';
 include_once '../models/CartItem.php';
-session_start();
+include_once 'CartController.php';
 include_once '../config/db/db_connection.php';
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -11,9 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['product_id'])) {
             $productId = $_POST['product_id'];
 
-
             addToCart($productId);
-
 
             header("Location: ../index.php");
             exit();
@@ -22,18 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 function addToCart($productId) {
-    $conn = connectDB();
-
     $userId = $_SESSION['user_id'];
 
-    $cart = new Cart(null, $userId);
+    $cart = new Cart($userId);
 
-
-    $cartItem = new CartItem(null, $cart->getCartId(), $productId, 1);
-
-    $cart->addCartItem($cartItem,$conn);
+    $cart->addCartItem($productId, 1);
 }
-
 
 header("Location: ../index.php");
 exit();
