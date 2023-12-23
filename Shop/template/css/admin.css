@@ -1,0 +1,80 @@
+/* template/css/admin.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+main {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input,
+textarea,
+button {
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.success {
+    color: green;
+    margin-bottom: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #333;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+a:hover {
+    background-color: #333;
+    color: #fff;
+}
+/* admin.css */
+
+.admin-actions a {
+    color: #ff5733;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.admin-actions a:hover {
+    text-decoration: underline;
+}
